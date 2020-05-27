@@ -138,6 +138,9 @@ namespace internal {
     //! execute task for parallel_for
     template<typename Range, typename Body, typename Partitioner>
     task* start_for<Range,Body,Partitioner>::execute() {
+        if(!GC_thread_is_registered()) {
+            fprintf(stderr,"TBB Found unregisterd thread =  0x%lx in start_for::execute\n", (long)GetCurrentThreadId());
+        }
         my_partition.check_being_stolen( *this );
         my_partition.execute(*this, my_range);
         return NULL;

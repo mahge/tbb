@@ -19,6 +19,8 @@
 #ifndef __RML_thread_monitor_H
 #define __RML_thread_monitor_H
 
+#include <gc.h>
+
 #if USE_WINTHREAD
 #include <windows.h>
 #include <process.h>
@@ -152,7 +154,7 @@ inline thread_monitor::handle_type thread_monitor::launch( thread_routine_type t
     unsigned thread_id;
     int number_of_processor_groups = ( worker_index ) ? tbb::internal::NumberOfProcessorGroups() : 0;
     unsigned create_flags = ( number_of_processor_groups > 1 ) ? CREATE_SUSPENDED : 0;
-    HANDLE h = (HANDLE)_beginthreadex( NULL, unsigned(stack_size), thread_routine, arg, STACK_SIZE_PARAM_IS_A_RESERVATION | create_flags, &thread_id );
+    HANDLE h = (HANDLE)GC_beginthreadex( NULL, unsigned(stack_size), thread_routine, arg, STACK_SIZE_PARAM_IS_A_RESERVATION | create_flags, &thread_id );
     if( !h ) {
         fprintf(stderr,"thread_monitor::launch: _beginthreadex failed\n");
         exit(1);

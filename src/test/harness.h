@@ -547,7 +547,7 @@ public:
 #if HARNESS_THREAD_STACK_SIZE
         stack_size = HARNESS_THREAD_STACK_SIZE;
 #endif
-        thread_handle = (HANDLE)_beginthreadex( NULL, stack_size, thread_function, this, 0, &thread_id );
+        thread_handle = (HANDLE)GC_beginthreadex( NULL, stack_size, thread_function, this, 0, &thread_id );
 #endif
         ASSERT( thread_handle!=0, "NativeParallelFor: _beginthreadex failed" );
 #else

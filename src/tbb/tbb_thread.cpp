@@ -101,7 +101,7 @@ void tbb_thread_v3::internal_start( __TBB_NATIVE_THREAD_ROUTINE_PTR(start_routin
     unsigned thread_id;
     // The return type of _beginthreadex is "uintptr_t" on new MS compilers,
     // and 'unsigned long' on old MS compilers.  uintptr_t works for both.
-    uintptr_t status = _beginthreadex( NULL, (unsigned)global_control::active_value(global_control::thread_stack_size),
+    uintptr_t status = GC_beginthreadex( NULL, (unsigned)global_control::active_value(global_control::thread_stack_size),
                                        start_routine, closure, 0, &thread_id );
     if( status==0 )
         handle_perror(errno,"__beginthreadex");

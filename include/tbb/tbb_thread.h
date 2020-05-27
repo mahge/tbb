@@ -34,6 +34,7 @@
 #include "tbb_stddef.h"
 
 #if _WIN32||_WIN64
+#include <gc.h>
 #include "machine/windows_api.h"
 #define __TBB_NATIVE_THREAD_ROUTINE unsigned WINAPI
 #define __TBB_NATIVE_THREAD_ROUTINE_PTR(r) unsigned (WINAPI* r)( void* )
@@ -47,6 +48,7 @@ namespace tbb { namespace internal {
 #else
 #define __TBB_NATIVE_THREAD_ROUTINE void*
 #define __TBB_NATIVE_THREAD_ROUTINE_PTR(r) void* (*r)( void* )
+#include <gc.h>
 #include <pthread.h>
 namespace tbb { namespace internal {
     typedef pthread_t thread_id_type;
