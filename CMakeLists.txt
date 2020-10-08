@@ -281,7 +281,11 @@ if (TBB_BUILD_STATIC)
   endif()
 
   target_include_directories(tbb_static PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../gc/include)
-  target_compile_definitions(tbb_static PUBLIC GC_THREADS)
+  if(WIN32)
+    target_compile_definitions(tbb_static PUBLIC GC_WIN32_PTHREADS)
+  else()
+    target_compile_definitions(tbb_static PUBLIC GC_THREADS)
+  endif()
 endif()
 
 if (TBB_BUILD_SHARED)
