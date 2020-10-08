@@ -693,3 +693,54 @@ if (TBB_BUILD_PYTHON)
     endif ()
   endif ()
 endif ()
+
+
+
+
+
+
+
+
+
+# Set up for usage with OpenModelica build system
+
+
+if(WIN32)
+  set(OPENMODELICA_LIBRARY_DESTINATION_REL ${CMAKE_CURRENT_SOURCE_DIR}/../../../build/lib/omc)
+# On non windows system we need to compute the destination based on OS name and arch.
+else()
+  # OpenModelica configuration and build puts libraries in a specific directory based on host system name
+  # and host architecture. We want to add tbb libs there as well. 
+  set(host_cpu ${CMAKE_HOST_SYSTEM_PROCESSOR})
+  # lower case to match autonf outputs
+  string(TOLOWER ${CMAKE_SYSTEM_NAME} host_os)
+  # Construct OpenModelica autoconf's host_short
+  set(host_short ${host_cpu}-${host_os})
+  # on linux OM adds gnu to linux builds for some reason.
+  string(APPEND host_short "-gnu")
+  # We asume we have tbb root at OMCompiler/3rdParty/tbb
+  set(OPENMODELICA_LIBRARY_DESTINATION_REL ${CMAKE_CURRENT_SOURCE_DIR}/../../../build/lib/${host_short}/omc)
+endif()
+
+# Compute the real path from the relative path just for clarity
+# This is the computed destination directory for static libs.
+get_filename_component(OPENMODELICA_LIBRARY_DESTINATION ${OPENMODELICA_LIBRARY_DESTINATION_REL} REALPATH)
+
+
+# Make sure the omc library destination directory is there. I am not sure what values it will have 
+# in different OSs and architectures because it depends on what autoconf generates for OpenModelica configuration.
+# Fail if the directory does not exist just to make sure.
+if(NOT EXISTS ${OPENMODELICA_LIBRARY_DESTINATION})
+  message(STATUS "Library install destination directory does not exist: " ${OPENMODELICA_LIBRARY_DESTINATION})
+  message(FATAL_ERROR "If everything seems right to you you can report a bug." ${OPENMODELICA_LIBRARY_DESTINATION})
+endif()
+
+message(STATUS "Libraries for OpenModelica usage will be installed in: ${OPENMODELICA_LIBRARY_DESTINATION}")
+message(STATUS "You can run 'make install_for_omc' to install the required libs for OpenModelica usage.")
+
+add_custom_target(install_for_omc
+                  DEPENDS tbb_static
+                  COMMAND ${CMAKE_COMMAND} -E copy
+                  ${CMAKE_CURRENT_BINARY_DIR}/libtbb_static.a
+                  ${OPENMODELICA_LIBRARY_DESTINATION}
+                  COMMENT "Installing libtbb_static.a to ${OPENMODELICA_LIBRARY_DESTINATION}")
