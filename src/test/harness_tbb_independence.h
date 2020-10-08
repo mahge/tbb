@@ -30,7 +30,7 @@
 #define __TBB_NO_IMPLICIT_LINKAGE 1
 #include "tbb/tbb_machine.h"
 
-#include <pthread.h>
+#include <gc.h>
 
 // Can't use Intel compiler intrinsic due to internal error reported by 10.1 compiler
 pthread_mutex_t counter_mutex = PTHREAD_MUTEX_INITIALIZER;

@@ -56,7 +56,7 @@
 #define __USE_STATIC_DL_INIT    ( !__ANDROID__ )
 
 #if !__USE_TBB_ATOMICS
-#include <pthread.h>
+#include <gc.h>
 #endif
 
 /*

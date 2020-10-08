@@ -34,7 +34,7 @@
 #if _WIN32||_WIN64
 #include "machine/windows_api.h"
 #else
-#include <pthread.h>
+#include <gc.h>
 #include <errno.h>
 #endif  // _WIN32||WIN64
 

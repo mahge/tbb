@@ -88,7 +88,7 @@ int TestMain ();
     #endif
     #include <process.h>
 #else
-    #include <pthread.h>
+    #include <gc.h>
 #endif
 
 #if __linux__
@@ -575,7 +575,7 @@ public:
         ASSERT(0==status, "NativeParallelFor: pthread_attr_init failed");
         status = pthread_attr_setstacksize( &attr_stack, stack_size );
         ASSERT(0==status, "NativeParallelFor: pthread_attr_setstacksize failed");
-        status = pthread_create(&thread_id, &attr_stack, thread_function, this);
+        status = GC_pthread_create(&thread_id, &attr_stack, thread_function, this);
         ASSERT(0==status, "NativeParallelFor: pthread_create failed");
         pthread_attr_destroy(&attr_stack);
 #if __ICC==1100
@@ -591,7 +591,7 @@ public:
         ASSERT( status!=WAIT_FAILED, "WaitForSingleObject failed" );
         CloseHandle( thread_handle );
 #else
-        int status = pthread_join( thread_id, NULL );
+        int status = GC_pthread_join( thread_id, NULL );
         ASSERT( !status, "pthread_join failed" );
 #endif
 #if HARNESS_NO_ASSERT

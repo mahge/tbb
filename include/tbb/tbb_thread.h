@@ -49,7 +49,6 @@ namespace tbb { namespace internal {
 #define __TBB_NATIVE_THREAD_ROUTINE void*
 #define __TBB_NATIVE_THREAD_ROUTINE_PTR(r) void* (*r)( void* )
 #include <gc.h>
-#include <pthread.h>
 namespace tbb { namespace internal {
     typedef pthread_t thread_id_type;
 }} //namespace tbb::internal

@@ -70,12 +70,12 @@ public:
 #elif USE_PTHREAD
 inline ipc_thread_monitor::handle_type ipc_thread_monitor::launch(void* (*thread_routine)(void*), void* arg, size_t stack_size) {
     pthread_attr_t s;
-    if( pthread_attr_init( &s ) ) return 0;
+    if( GC_pthread_attr_init( &s ) ) return 0;
     if( stack_size>0 ) {
         if( pthread_attr_setstacksize( &s, stack_size ) ) return 0;
     }
     pthread_t handle;
-    if( pthread_create( &handle, &s, thread_routine, arg ) ) return 0;
+    if( GC_pthread_create( &handle, &s, thread_routine, arg ) ) return 0;
     if( pthread_attr_destroy( &s ) ) return 0;
     return handle;
 }

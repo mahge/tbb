@@ -249,7 +249,7 @@ int TestMain()
     sigemptyset(&sig_set);
     sigaddset(&sig_set, SIGCHLD);
     sigaddset(&sig_set, SIGALRM);
-    if (pthread_sigmask(SIG_BLOCK, &sig_set, NULL))
+    if (GC_pthread_sigmask(SIG_BLOCK, &sig_set, NULL))
         ASSERT(0, "pthread_sigmask failed");
 #endif
     for (int threads=MinThread; threads<=MaxThread; threads+=MinThread) {

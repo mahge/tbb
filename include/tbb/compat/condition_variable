@@ -59,7 +59,7 @@ typedef CONDITION_VARIABLE* PCONDITION_VARIABLE;
 
 #else /* if not _WIN32||_WIN64 */
 #include <errno.h> // some systems need it for ETIMEDOUT
-#include <pthread.h>
+#include <gc.h>
 #if __linux__
 #include <ctime>
 #else /* generic Unix */

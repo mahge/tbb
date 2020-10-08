@@ -18,7 +18,7 @@
 #define _TBB_tls_H
 
 #if USE_PTHREAD
-#include <pthread.h>
+#include <gc.h>
 #else /* assume USE_WINTHREAD */
 #include "tbb/machine/windows_api.h"
 #endif

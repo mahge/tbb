@@ -64,7 +64,7 @@ void tbb_thread_v3::join()
     my_thread_id = 0;
 #endif // __TBB_WIN8UI_SUPPORT
 #else
-    int status = pthread_join( my_handle, NULL );
+    int status = GC_pthread_join( my_handle, NULL );
     if( status )
         handle_perror( status, "pthread_join" );
 #endif // _WIN32||_WIN64
@@ -80,7 +80,7 @@ void tbb_thread_v3::detach() {
       handle_win_error( GetLastError() );
     my_thread_id = 0;
 #else
-    int status = pthread_detach( my_handle );
+    int status = GC_pthread_detach( my_handle );
     if( status )
         handle_perror( status, "pthread_detach" );
 #endif // _WIN32||_WIN64
@@ -121,7 +121,7 @@ void tbb_thread_v3::internal_start( __TBB_NATIVE_THREAD_ROUTINE_PTR(start_routin
     if( status )
         handle_perror( status, "pthread_attr_setstacksize" );
 
-    status = pthread_create( &thread_handle, &stack_size, start_routine, closure );
+    status = GC_pthread_create( &thread_handle, &stack_size, start_routine, closure );
     if( status )
         handle_perror( status, "pthread_create" );
     status = pthread_attr_destroy( &stack_size );

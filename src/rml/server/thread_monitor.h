@@ -30,7 +30,7 @@
 #include <thread>
 #endif
 #elif USE_PTHREAD
-#include <pthread.h>
+#include <gc.h>
 #include <string.h>
 #include <stdlib.h>
 #else
@@ -217,17 +217,17 @@ inline thread_monitor::handle_type thread_monitor::launch( void* (*thread_routin
     if( stack_size>0 )
         check(pthread_attr_setstacksize( &s, stack_size ), "pthread_attr_setstack_size" );
     pthread_t handle;
-    check( pthread_create( &handle, &s, thread_routine, arg ), "pthread_create" );
+    check( GC_pthread_create( &handle, &s, thread_routine, arg ), "pthread_create" );
     check( pthread_attr_destroy( &s ), "pthread_attr_destroy" );
     return handle;
 }
 
 void thread_monitor::join(handle_type handle) {
-    check(pthread_join(handle, NULL), "pthread_join");
+    check(GC_pthread_join(handle, NULL), "pthread_join");
 }
 
 void thread_monitor::detach_thread(handle_type handle) {
-    check(pthread_detach(handle), "pthread_detach");
+    check(GC_pthread_detach(handle), "pthread_detach");
 }
 
 inline void thread_monitor::yield() {

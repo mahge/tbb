@@ -38,7 +38,7 @@
 #if _WIN32||_WIN64
 #include "machine/windows_api.h"
 #else
-#include <pthread.h>
+#include <gc.h>
 #endif
 
 #define __TBB_ETS_USE_CPP11 \
