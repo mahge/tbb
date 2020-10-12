@@ -704,22 +704,13 @@ endif ()
 
 # Set up for usage with OpenModelica build system
 
-
+message(STATUS "OM_BUILD_DIR ${OM_BUILD_DIR}")
+message(STATUS "OM_HOST_SHORT ${OM_HOST_SHORT}")
 if(WIN32)
-  set(OPENMODELICA_LIBRARY_DESTINATION_REL ${CMAKE_CURRENT_SOURCE_DIR}/../../../build/lib/omc)
+  set(OPENMODELICA_LIBRARY_DESTINATION_REL ${OM_BUILD_DIR}/lib/omc)
 # On non windows system we need to compute the destination based on OS name and arch.
 else()
-  # OpenModelica configuration and build puts libraries in a specific directory based on host system name
-  # and host architecture. We want to add tbb libs there as well. 
-  set(host_cpu ${CMAKE_HOST_SYSTEM_PROCESSOR})
-  # lower case to match autonf outputs
-  string(TOLOWER ${CMAKE_SYSTEM_NAME} host_os)
-  # Construct OpenModelica autoconf's host_short
-  set(host_short ${host_cpu}-${host_os})
-  # on linux OM adds gnu to linux builds for some reason.
-  string(APPEND host_short "-gnu")
-  # We asume we have tbb root at OMCompiler/3rdParty/tbb
-  set(OPENMODELICA_LIBRARY_DESTINATION_REL ${CMAKE_CURRENT_SOURCE_DIR}/../../../build/lib/${host_short}/omc)
+  set(OPENMODELICA_LIBRARY_DESTINATION_REL ${OM_BUILD_DIR}/lib/${OM_HOST_SHORT}/omc)
 endif()
 
 # Compute the real path from the relative path just for clarity
